@@ -22,7 +22,7 @@ body {
 .bg {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: 0;
     background-size: cover;
     background-position: center;
     animation: slide 20s infinite;
@@ -40,22 +40,23 @@ body {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.45);
-    z-index: -1;
+    z-index: 1;
 }
 
-/* Center card */
+/* YES CARD (ALWAYS ON TOP) */
 .container {
-    height: calc(100vh - 160px); /* leave space for No button zone */
+    position: relative;
+    z-index: 10; /* 🔒 always above No button */
+    height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Card */
 .card {
     width: 90%;
     max-width: 420px;
-    padding: 30px;
+    padding: 32px;
     border-radius: 25px;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
@@ -79,17 +80,14 @@ h1 {
     cursor: pointer;
 }
 
-/* NO BUTTON PLAYGROUND (FIXED) */
-.no-zone {
+/* NO BUTTON LAYER (BEHIND CARD) */
+.no-layer {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 420px;
-    height: 120px;
-    border-radius: 18px;
-    pointer-events: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    z-index: 2; /* BELOW card */
 }
 
 #no {
@@ -144,6 +142,7 @@ h1 {
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<!-- YES CARD -->
 <div class="container">
     <div class="card">
         <h1>Will you be my Valentine, Betu? 💖</h1>
@@ -151,8 +150,8 @@ h1 {
     </div>
 </div>
 
-<!-- NO BUTTON ZONE (SEPARATE) -->
-<div class="no-zone" id="zone">
+<!-- NO BUTTON (BEHIND CARD) -->
+<div class="no-layer" id="zone">
     <button id="no">No 😜</button>
 </div>
 
@@ -171,9 +170,9 @@ function moveNo() {
     noBtn.style.top = y + "px";
 }
 
-["mouseenter", "click", "touchstart"].forEach(evt => {
-    noBtn.addEventListener(evt, moveNo);
-});
+["mouseenter", "click", "touchstart"].forEach(e =>
+    noBtn.addEventListener(e, moveNo)
+);
 
 document.getElementById("yes").onclick = () => {
     document.body.innerHTML = `
@@ -182,9 +181,9 @@ document.getElementById("yes").onclick = () => {
             <div class="envelope" onclick="this.querySelector('.letter').style.display='block'">
                 <div class="letter">
                     My love ❤️<br><br>
-                    You are my today,
-                    my tomorrow,
-                    and my forever 💕
+                    You are my heart,
+                    my home,
+                    my forever 💕
                 </div>
             </div>
             <p style="color:white;text-align:center;margin-top:12px;">
