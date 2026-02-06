@@ -43,8 +43,9 @@ body {
     z-index: -1;
 }
 
+/* Center card */
 .container {
-    height: 100vh;
+    height: calc(100vh - 160px); /* leave space for No button zone */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +55,7 @@ body {
 .card {
     width: 90%;
     max-width: 420px;
-    padding: 28px;
+    padding: 30px;
     border-radius: 25px;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
@@ -62,22 +63,14 @@ body {
     color: white;
 }
 
-/* Title */
 h1 {
     font-size: 26px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     color: #ffb3c6;
 }
 
-/* YES section (protected zone) */
-.yes-zone {
-    margin-bottom: 25px;
-    z-index: 5;
-    position: relative;
-}
-
 #yes {
-    padding: 14px 38px;
+    padding: 14px 40px;
     font-size: 18px;
     border-radius: 14px;
     border: none;
@@ -86,13 +79,17 @@ h1 {
     cursor: pointer;
 }
 
-/* NO section (sandbox) */
+/* NO BUTTON PLAYGROUND (FIXED) */
 .no-zone {
-    position: relative;
-    height: 140px;
-    margin-top: 20px;
-    border-radius: 16px;
-    overflow: hidden;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 420px;
+    height: 120px;
+    border-radius: 18px;
+    pointer-events: auto;
 }
 
 #no {
@@ -149,20 +146,14 @@ h1 {
 
 <div class="container">
     <div class="card">
-
         <h1>Will you be my Valentine, Betu? 💖</h1>
-
-        <!-- YES ZONE -->
-        <div class="yes-zone">
-            <button id="yes">Yes 💕</button>
-        </div>
-
-        <!-- NO ZONE -->
-        <div class="no-zone" id="zone">
-            <button id="no">No 😜</button>
-        </div>
-
+        <button id="yes">Yes 💕</button>
     </div>
+</div>
+
+<!-- NO BUTTON ZONE (SEPARATE) -->
+<div class="no-zone" id="zone">
+    <button id="no">No 😜</button>
 </div>
 
 <script>
@@ -191,9 +182,9 @@ document.getElementById("yes").onclick = () => {
             <div class="envelope" onclick="this.querySelector('.letter').style.display='block'">
                 <div class="letter">
                     My love ❤️<br><br>
-                    You are my happiness,
-                    my calm, my forever.
-                    I choose you — always 💕
+                    You are my today,
+                    my tomorrow,
+                    and my forever 💕
                 </div>
             </div>
             <p style="color:white;text-align:center;margin-top:12px;">
