@@ -1,84 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Will You Be My Valentine?</title>
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        .card {
-            background: white;
-            padding: 30px 40px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        h1 {
-            color: #ff4d6d;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 12px 25px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        #yesBtn {
-            background-color: #ff4d6d;
-            color: white;
-        }
-
-        #noBtn {
-            background-color: #ddd;
-            position: absolute;
-        }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h1>Will you be my Valentine? 💖</h1>
-    <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
-    <button id="noBtn" onmouseover="moveButton()">No 😜</button>
-</div>
-
-<script>
-    function yesClicked() {
-        document.body.innerHTML = `
-            <div style="display:flex;align-items:center;justify-content:center;height:100vh;
-            background:linear-gradient(135deg,#ff9a9e,#fad0c4);">
-                <h1 style="color:white;font-size:40px;">
-                    Yayyy! 💖 I love you 😘
-                </h1>
-            </div>
-        `;
-    }
-
-    function moveButton() {
-        const btn = document.getElementById("noBtn");
-        const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-        const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-    }
-</script>
-
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,8 +20,7 @@
     /* Background Slideshow */
     .slideshow {
         position: fixed;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         z-index: -2;
         background-size: cover;
         background-position: center;
@@ -120,19 +38,18 @@
     /* Dark overlay */
     .overlay {
         position: fixed;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.45);
+        inset: 0;
+        background: rgba(0,0,0,0.5);
         z-index: -1;
     }
 
     /* Center container */
     .container {
+        position: relative;
         height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative; /* IMPORTANT */
     }
 
     .card {
@@ -170,6 +87,7 @@
         position: absolute;
         color: black;
         transition: all 0.25s ease;
+        touch-action: manipulation;
     }
 </style>
 </head>
@@ -183,7 +101,12 @@
     <div class="card">
         <h1>Will you be my Valentine, Betu? 💖</h1>
         <button id="yesBtn" onclick="yesClicked()">Yes 💕</button>
-        <button id="noBtn" onmouseover="moveButton()">No 😜</button>
+        <button id="noBtn"
+                onmouseover="moveButton()"
+                onclick="moveButton()"
+                ontouchstart="moveButton()">
+            No 😜
+        </button>
     </div>
 </div>
 
