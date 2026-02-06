@@ -117,7 +117,7 @@
         100% { background-image: url("myphotos/pic1.jpeg"); }
     }
 
-    /* Dark overlay for romance */
+    /* Dark overlay */
     .overlay {
         position: fixed;
         width: 100%;
@@ -126,12 +126,13 @@
         z-index: -1;
     }
 
-    /* Center Card */
+    /* Center container */
     .container {
         height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative; /* IMPORTANT */
     }
 
     .card {
@@ -168,8 +169,8 @@
         background: #ddd;
         position: absolute;
         color: black;
+        transition: all 0.25s ease;
     }
-      
 </style>
 </head>
 
@@ -203,14 +204,15 @@
             </h1>
         </div>`;
     }
-    <script>
+
     function moveButton() {
         const btn = document.getElementById("noBtn");
+        const container = document.querySelector(".container");
 
-        const padding = 30; // safe space from edges
+        const padding = 30;
 
-        const maxX = window.innerWidth - btn.offsetWidth - padding;
-        const maxY = window.innerHeight - btn.offsetHeight - padding;
+        const maxX = container.clientWidth - btn.offsetWidth - padding;
+        const maxY = container.clientHeight - btn.offsetHeight - padding;
 
         const x = Math.random() * maxX + padding;
         const y = Math.random() * maxY + padding;
@@ -220,16 +222,5 @@
     }
 </script>
 
-
-    // function moveButton() {
-    //     const btn = document.getElementById("noBtn");
-    //     const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-    //     const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-    //     btn.style.left = x + "px";
-    //     btn.style.top = y + "px";
-    // }
-</script>
-
 </body>
 </html>
-
