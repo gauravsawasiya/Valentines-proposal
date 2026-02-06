@@ -18,11 +18,11 @@ body {
     overflow: hidden;
 }
 
-/* Background slideshow */
+/* 🌄 Background slideshow */
 .bg {
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: -3;
     background-size: cover;
     background-position: center;
     animation: slide 20s infinite;
@@ -40,14 +40,26 @@ body {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.45);
-    z-index: 1;
+    z-index: -2;
 }
 
-/* YES CARD (ALWAYS ON TOP) */
+/* 💕 Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+
+/* 💌 Main card */
 .container {
-    position: relative;
-    z-index: 10; /* 🔒 always above No button */
-    height: 70vh;
+    height: 65vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,7 +68,7 @@ body {
 .card {
     width: 90%;
     max-width: 420px;
-    padding: 32px;
+    padding: 30px;
     border-radius: 25px;
     background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
@@ -70,65 +82,72 @@ h1 {
     color: #ffb3c6;
 }
 
-#yes {
+button {
     padding: 14px 40px;
     font-size: 18px;
     border-radius: 14px;
     border: none;
-    background: #ff4d6d;
-    color: white;
-    cursor: pointer;
 }
 
-/* NO BUTTON LAYER (BEHIND CARD) */
-.no-layer {
+#yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+/* ❌ No button zone */
+.no-zone {
     position: fixed;
     bottom: 0;
-    left: 0;
+    height: 35vh;
     width: 100%;
-    height: 30vh;
-    z-index: 2; /* BELOW card */
 }
 
 #no {
     position: absolute;
-    padding: 12px 26px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: none;
     background: #eee;
     color: black;
-    cursor: pointer;
-    transition: transform 0.25s ease;
+    touch-action: none;
 }
 
-/* Envelope */
+/* ✉️ Envelope */
 .envelope {
     width: 280px;
     height: 180px;
     background: #ffcad4;
-    border-radius: 12px;
     position: relative;
-    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    animation: open 1.2s forwards;
 }
 
 .envelope::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background: #ff8fab;
-    clip-path: polygon(0 0,100% 0,50% 55%);
+    width: 100%;
+    height: 100%;
+    background: #ff8fa3;
+    clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
 }
 
-.letter {
-    display: none;
+.message {
     position: absolute;
     inset: 15px;
     background: white;
-    border-radius: 8px;
-    padding: 15px;
     color: #ff4d6d;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
     font-size: 15px;
+    transform: translateY(100%);
+    animation: letter 1.2s forwards 0.8s;
+}
+
+@keyframes open {
+    to { transform: scale(1.05); }
+}
+
+@keyframes letter {
+    to { transform: translateY(0); }
 }
 </style>
 </head>
@@ -142,55 +161,53 @@ h1 {
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- YES CARD -->
-<div class="container">
+<div class="container" id="main">
     <div class="card">
         <h1>Will you be my Valentine, Betu? 💖</h1>
         <button id="yes">Yes 💕</button>
     </div>
 </div>
 
-<!-- NO BUTTON (BEHIND CARD) -->
-<div class="no-layer" id="zone">
+<div class="no-zone" id="zone">
     <button id="no">No 😜</button>
 </div>
 
 <script>
+/* 💕 Floating hearts generator */
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 400);
+
+/* ❌ No button movement */
 const noBtn = document.getElementById("no");
 const zone = document.getElementById("zone");
 
-function moveNo() {
-    const maxX = zone.clientWidth - noBtn.offsetWidth;
-    const maxY = zone.clientHeight - noBtn.offsetHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
+noBtn.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    const x = Math.random() * (zone.clientWidth - noBtn.offsetWidth);
+    const y = Math.random() * (zone.clientHeight - noBtn.offsetHeight);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-}
+});
 
-["mouseenter", "click", "touchstart"].forEach(e =>
-    noBtn.addEventListener(e, moveNo)
-);
-
+/* ✉️ Envelope on YES */
 document.getElementById("yes").onclick = () => {
-    document.body.innerHTML = `
-    <div class="container">
-        <div>
-            <div class="envelope" onclick="this.querySelector('.letter').style.display='block'">
-                <div class="letter">
-                    My love ❤️<br><br>
-                    You are my heart,
-                    my home,
-                    my forever 💕
-                </div>
+    document.getElementById("main").innerHTML = `
+        <div class="envelope">
+            <div class="message">
+                My love ❤️<br><br>
+                You are my smile,
+                my peace,
+                my forever 💕<br><br>
+                Happy Valentine’s 💌
             </div>
-            <p style="color:white;text-align:center;margin-top:12px;">
-                Tap the envelope 💌
-            </p>
-        </div>
-    </div>`;
+        </div>`;
 };
 </script>
 
